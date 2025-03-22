@@ -5,11 +5,11 @@ import { Calendar, ChevronLeft, ChevronRight, MessageCircle, Send, Mic } from 'l
 
 const LittleEchoApp = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [replyMode, setReplyMode] = useState(null);
+  const [replyMode, setReplyMode] = useState<string | null>(null);
   const [recording, setRecording] = useState(false);
 
   // Format date to display
-  const formatDate = (date) => {
+  const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
       weekday: 'long',
       month: 'long',
@@ -32,9 +32,12 @@ const LittleEchoApp = () => {
   // Mock data for daily story
   const dailyStory = `Emma had a bright start to her day! She was very excited during morning playtime and shared her toys with friends. Around lunchtime, she seemed a bit sad and missed you, but after naptime, her mood improved dramatically. She spent the afternoon building block towers and laughing with her friends. Today's highlight was when she helped comfort another child who was crying. Before pickup, she was getting sleepy but kept asking when you'd arrive.`;
 
+  // Define mood types
+  type MoodType = 'happy' | 'excited' | 'neutral' | 'sad' | 'frustrated' | 'sleepy';
+
   // Function to get color based on mood
-  const getMoodColor = (mood) => {
-    const colors = {
+  const getMoodColor = (mood: string): string => {
+    const colors: Record<MoodType, string> = {
       happy: 'bg-green-500',
       excited: 'bg-blue-500',
       neutral: 'bg-yellow-400',
@@ -42,7 +45,8 @@ const LittleEchoApp = () => {
       frustrated: 'bg-red-500',
       sleepy: 'bg-indigo-300'
     };
-    return colors[mood] || 'bg-gray-400';
+
+    return (colors as Record<string, string>)[mood] || 'bg-gray-400';
   };
 
   const handlePreviousDay = () => {
@@ -57,7 +61,7 @@ const LittleEchoApp = () => {
     setCurrentDate(nextDate);
   };
 
-  const handleReply = (type) => {
+  const handleReply = (type: string) => {
     setReplyMode(type);
   };
 
@@ -107,7 +111,7 @@ const LittleEchoApp = () => {
       <div className="flex-1 overflow-auto p-4">
         {/* Mood Timeline */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-          <h3 className="text-lg font-semibold mb-3">Today's Mood Timeline</h3>
+          <h3 className="text-lg font-semibold mb-3">Today&apos;s Mood Timeline</h3>
           <div className="flex justify-between mb-2">
             <span className="text-xs text-gray-500">Morning</span>
             <span className="text-xs text-gray-500">Afternoon</span>
@@ -134,7 +138,7 @@ const LittleEchoApp = () => {
 
         {/* Daily Story */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-          <h3 className="text-lg font-semibold mb-3">Emma's Daily Story</h3>
+          <h3 className="text-lg font-semibold mb-3">Emma&apos;s Daily Story</h3>
           <p className="text-gray-700 mb-4">{dailyStory}</p>
           <div className="flex justify-end">
             <button
@@ -215,7 +219,7 @@ const LittleEchoApp = () => {
 
         {/* Insight Cards */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-          <h3 className="text-lg font-semibold mb-3">Today's Insights</h3>
+          <h3 className="text-lg font-semibold mb-3">Today&apos;s Insights</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-green-100 p-3 rounded-lg">
               <h4 className="font-medium text-green-800">Top Emotion</h4>
